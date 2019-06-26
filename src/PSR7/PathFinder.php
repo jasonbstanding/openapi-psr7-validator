@@ -108,7 +108,8 @@ class PathFinder
             }
 
             // 2. method matches
-            foreach ($pathItemSpec->getOperations() as $opMethod => $operation) {
+            $pathItems = $pathItemSpec->getPaths();
+            foreach ($pathItems as $opMethod => $operation) {
                 if ($opMethod !== $this->method) {
                     continue;
                 }
@@ -128,7 +129,8 @@ class PathFinder
      */
     private function findServersForOperation(OperationAddress $opAddress) : array
     {
-        $path      = $this->openApiSpec->paths->getPath($opAddress->path());
+        $path      = $this->openApiSpec->paths[$opAddress->path()];
+        //$path      = $this->openApiSpec->paths->getPath($opAddress->path());
         $operation = $path->getOperations()[$opAddress->method()];
 
         // 1. Check servers on operation level
